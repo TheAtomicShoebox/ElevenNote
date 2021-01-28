@@ -18,7 +18,7 @@ namespace ElevenNote.Data
         public string Content { get; set; }
 
         [Required]
-        DateTimeOffset CreatedUtc { get; set; }
+        public DateTimeOffset CreatedUtc { get; set; }
 
         public DateTimeOffset? ModifiedUtc { get; set; }
     }
