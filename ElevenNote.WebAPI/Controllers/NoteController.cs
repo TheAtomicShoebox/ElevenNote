@@ -1,4 +1,5 @@
-﻿using ElevenNote.Models;
+﻿using ElevenNote.Data;
+using ElevenNote.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace ElevenNote.WebAPI.Controllers
             var noteService = new NoteService(userId);
             return noteService;
         }
-        
+
         // GET api/Note
         public IHttpActionResult Get()
         {
@@ -36,7 +37,7 @@ namespace ElevenNote.WebAPI.Controllers
             return Ok(note);
         }
 
-        // Post api/Note
+        // POST api/Note
         public IHttpActionResult Post(NoteCreate note)
         {
             if (!ModelState.IsValid)
@@ -45,6 +46,20 @@ namespace ElevenNote.WebAPI.Controllers
             var service = CreateNoteService();
 
             if (!service.CreateNote(note))
+                return InternalServerError();
+
+            return Ok();
+        }
+
+        // PUT api/Note
+        public IHttpActionResult Put(NoteEdit note)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var service = CreateNoteService();
+
+            if (!service.UpdateNote(note))
                 return InternalServerError();
 
             return Ok();
