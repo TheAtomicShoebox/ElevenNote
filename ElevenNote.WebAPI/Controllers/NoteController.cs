@@ -29,7 +29,7 @@ namespace ElevenNote.WebAPI.Controllers
             return Ok(notes);
         }
 
-        // GET by id api/Note
+        // GET by id api/Note/:NoteId
         public IHttpActionResult Get(int id)
         {
             NoteService noteService = CreateNoteService();
@@ -51,7 +51,7 @@ namespace ElevenNote.WebAPI.Controllers
             return Ok();
         }
 
-        // PUT api/Note
+        // PUT api/Note/:NoteId
         public IHttpActionResult Put(NoteEdit note)
         {
             if (!ModelState.IsValid)
@@ -60,6 +60,16 @@ namespace ElevenNote.WebAPI.Controllers
             var service = CreateNoteService();
 
             if (!service.UpdateNote(note))
+                return InternalServerError();
+
+            return Ok();
+        }
+
+        // DELETE api/Note/:NoteId
+        public IHttpActionResult Delete(int id)
+        {
+            var service = CreateNoteService();
+            if (!service.DeleteNote(id))
                 return InternalServerError();
 
             return Ok();
